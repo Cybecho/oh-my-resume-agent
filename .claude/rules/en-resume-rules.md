@@ -12,11 +12,11 @@ This rule file applies to EN resume workflow and must be used with existing comm
 
 ## Data Integrity Priority
 
-1. `data/experience_cards/*.md` (fact SSOT)
-2. `data/experience_bullets/*.md` (expression candidates)
-3. `data/experience_bullets/claim_registry.yaml` (numeric truth)
-4. `data/RESUME/snapshots/en/*.md` (format reference)
-5. `data/profile.md` (identity/profile SSOT)
+1. `workspace/experience_cards/*.md` (fact SSOT)
+2. `workspace/claims/claim_registry.yaml` (numeric truth)
+3. `workspace/profile/*.md` (identity/profile SSOT)
+4. `workspace/writing_samples/*.md` (tone/style reference when needed)
+5. Legacy fallback for private seed only: `data/experience_cards/`, `data/experience_bullets/`, `data/RESUME/snapshots/en/`, `data/profile.md`
 
 ## Claim Rules
 

@@ -6,11 +6,11 @@
 # Evidence Selection: {Company} - {Role}
 
 ## Data Priority Confirmation
-1. `data/experience_cards/*.md`
-2. `data/experience_bullets/*.md`
-3. `data/experience_bullets/claim_registry.yaml`
-4. `data/RESUME/snapshots/en/*.md`
-5. `data/profile.md`
+1. `workspace/experience_cards/*.md`
+2. `workspace/claims/claim_registry.yaml`
+3. `workspace/profile/*.md`
+4. Optional local tone/reference context: `workspace/writing_samples/*.md`
+5. Legacy private seed fallback only: `data/experience_cards/*.md`, `data/experience_bullets/*.md`, `data/experience_bullets/claim_registry.yaml`, `data/RESUME/snapshots/en/*.md`, `data/profile.md`
 
 ## Candidate Evidence Pool
 | Experience ID | Card Path | Bullet Path | Role Fit | Claim IDs | Notes |
