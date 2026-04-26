@@ -1,0 +1,11 @@
+claims:
+  - claim_id: SAMPLE-CLAIM-001
+    status: approved
+    statement: "Synthetic sample claim for documentation only."
+    evidence: "templates/samples/experience_card.sample.md"
+    allowed_usage: "README and onboarding examples only"
+  - claim_id: SAMPLE-CLAIM-002
+    status: candidate
+    statement: "Candidate claims must not appear in final drafts until approved."
+    evidence: "userinfo/raw/"
+    allowed_usage: "review queue only"
