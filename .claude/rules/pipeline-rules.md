@@ -25,22 +25,31 @@
 
 ## 경험 데이터 조회 순서
 
-1. 로컬 카탈로그: `data/experience_cards/*.md`
+1. 정규화 카탈로그: `workspace/experience_cards/*.md`
    - `doc_type: experience_card` 블록과 `tags`를 우선 사용
-   - 13_MOC(`13_모든경험_인덱스맵.md`) 및 00_TAG_INDEX(`00_TAG_INDEX.md`)를 병행 참조
-2. 소스 아카이브: `data/writing_samples/Archive_*.md`
+2. Claim registry: `workspace/claims/claim_registry.yaml`
+   - 최종 본문 수치는 `approved` claim만 사용
+3. 문체 샘플: `workspace/writing_samples/*.md`
+   - 사용자 문체 참조용으로 사용
+4. 원본 입력: `userinfo/raw/`, `userinfo/job_posts/`
+   - 원본은 정규화 전 경계로 취급하고, 생성 근거로 쓰기 전 `workspace/`로 구조화한다
+5. Legacy fallback: `data/experience_cards/`, `data/experience_bullets/`, `data/experiences/`, `data/writing_samples/`
+   - 기존 개인용 seed에만 존재하는 보조 소스
+6. 소스 아카이브: `data/writing_samples/Archive_*.md`
    - `source:` 원문을 통한 근거 추적용 참조
-3. legacy 경험 파일: `data/experiences/` 폴더
+7. legacy 경험 파일: `data/experiences/` 폴더
    - 기존 STAR 템플릿 자원 보조 소스
-4. Notion MCP (`notion-search` → `notion-fetch`)
+8. Notion MCP (`notion-search` → `notion-fetch`)
    - 설정된 경우에만 보강 수단으로 사용
-5. 가능한 한 로컬과 보조 소스 모두 교차 검증 후 누락 없는 선별 수행
+9. 가능한 한 로컬과 보조 소스 모두 교차 검증 후 누락 없는 선별 수행
+
+public template에서 `workspace/`가 비어 있으면 경험을 창작하지 말고 `resume init`, `resume doctor`, `userinfo/` 입력 안내를 먼저 제시한다.
 
 ## 언어 및 톤
 
 - 한국어로 응답한다
 - 기업 영문명, 기술 용어, 직무명은 원문 유지한다
-- 자소서 본문은 사용자의 문체를 따른다 (`data/writing_samples/` 참조)
+- 자소서 본문은 사용자의 문체를 따른다 (`workspace/writing_samples/` 우선 참조, 기존 개인용 seed에서만 `data/writing_samples/`를 legacy fallback으로 사용)
 
 ## 진행상황 표시
 

@@ -1,21 +1,23 @@
 # AGENTS: Codex 실행 지침
 
-이 저장소는 로컬 경험 데이터 기준으로 자기소개서 파이프라인을 수행하는 에이전트 환경입니다. Codex는 기본적으로 로컬 데이터를 우선 사용합니다.
+이 저장소는 로컬 경험 데이터 기준으로 자기소개서 파이프라인을 수행하는 에이전트 환경입니다. Codex는 기본적으로 `workspace/`의 정규화 데이터를 우선 사용합니다.
 
 ## 핵심 규칙
 
 - 원천 데이터가 없는 내용은 작성하지 않는다.
-- 수치/사실은 `data/experience_cards/`를 1차 근거로, 필요 시 `data/experience_bullets/claim_registry.yaml`과 `data/experiences/`로 보강한다.
+- 수치/사실은 `workspace/experience_cards/`를 1차 근거로, 필요 시 `workspace/claims/claim_registry.yaml`로 보강한다. 기존 개인용 seed에서만 `data/experience_cards/`, `data/experience_bullets/claim_registry.yaml`, `data/experiences/`를 legacy fallback으로 사용한다.
 - KOR 파이프라인 상태는 `output/{YYYYMMDD}_{회사명}/state.json`에 반영한다.
 - EN resume 파이프라인 상태는 `output/{YYYYMMDD}_{회사명}/state_en.json`에 반영한다.
 - EN 산출물은 `output/{YYYYMMDD}_{회사명}/en_resume/` 하위로 저장한다.
 
 ## 데이터 조회 우선순위
 
-1. `data/experience_cards/*.md` (doc_type: `experience_card`)
-2. `data/experience_cards/00_TAG_INDEX.md`, `13_모든경험_인덱스맵.md`, `14_경험_검색_선별_대시보드.md`
-3. `data/experiences/_index.md` 및 `data/experiences/*.md`(legacy)
-4. Notion MCP는 로컬 소스로 누락이 있을 때만 보조 수단으로 사용
+1. `workspace/experience_cards/*.md` (doc_type: `experience_card`)
+2. `workspace/claims/claim_registry.yaml` (approved claim만 최종 수치에 사용)
+3. `workspace/writing_samples/*.md` (문체 참조)
+4. `userinfo/raw/`, `userinfo/job_posts/`는 원본 입력 경계이며, 직접 생성 근거로 쓰기 전 `workspace/`로 정규화한다
+5. legacy fallback: 기존 개인용 seed에만 존재하는 `data/experience_cards/`, `data/experience_bullets/`, `data/experiences/`
+6. Notion MCP는 로컬 소스로 누락이 있을 때만 보조 수단으로 사용
 
 ## 사용 가능한 스킬
 
@@ -44,4 +46,4 @@
 - 단계별 실행은 대응하는 `agents/*.md` 또는 `agents/en/*.md` 지침을 먼저 읽는다.
 - 파이프라인 공통 규칙은 `.claude/rules/pipeline-rules.md`와 `templates/schemas/*.md`를 따른다.
 - EN resume 흐름은 `.claude/rules/en-resume-rules.md`와 `templates/schemas/en/*.md`를 추가로 따른다.
-- 경험카드 구조 변경/추가/삭제는 `data/experience_cards/MOC_운영정합성.md`의 실행 체크리스트를 기준으로 점검한다.
+- 경험카드 구조 변경/추가/삭제는 public repo에서는 `workspace/experience_cards/`와 `templates/samples/experience_card.sample.md` 기준으로 점검하고, 기존 개인용 seed에서는 `data/experience_cards/MOC_운영정합성.md`를 legacy 체크리스트로 참고한다.
