@@ -32,6 +32,8 @@ workspace/**
 !workspace/writing_samples/.gitkeep
 !workspace/job_posts/
 !workspace/job_posts/.gitkeep
+!workspace/feedback/
+!workspace/feedback/.gitkeep
 
 # Generated application outputs
 output/**
@@ -42,11 +44,13 @@ output/**
 .omx/
 .omr/state/**
 .omr/logs/**
+.omr/plans/**
 !.omr/
 !.omr/README.md
 
 # Editor / local agent state
 .obsidian/
+.sisyphus/
 .claude/settings.local.json
 .agents/_writetest
 

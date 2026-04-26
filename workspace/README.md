@@ -9,6 +9,7 @@ Recommended public-safe structure:
 - `experience_cards/`: reusable evidence cards grouped by real events.
 - `claims/`: claim registry, metrics, and evidence provenance.
 - `writing_samples/`: reusable tone/style examples extracted from prior essays.
+- `feedback/`: post-submission outcomes and reusable weighting signals.
 - `job_posts/`: normalized job descriptions and crawl/OCR results.
 
 The contents are ignored by git because they are private to each user. Commit
