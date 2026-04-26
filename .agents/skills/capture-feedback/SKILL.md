@@ -1,6 +1,6 @@
 ---
 name: capture-feedback
-description: "Collect post-submission feedback (`/피드백`) and append it to `data/feedback/log.json` so future matching and drafting can reflect outcomes."
+description: "Collect post-submission feedback (`/피드백`) and append it to `workspace/feedback/log.json` so future matching and drafting can reflect outcomes."
 ---
 
 # 피드백 수집
@@ -22,7 +22,7 @@ description: "Collect post-submission feedback (`/피드백`) and append it to `
 
 ## 3) 저장
 
-`data/feedback/log.json`에 아래 필드를 추가한다.
+`workspace/feedback/log.json`에 아래 필드를 추가한다. 기존 개인용 seed에서만 `data/feedback/log.json`를 legacy fallback으로 사용한다.
 
 ```json
 {
