@@ -27,8 +27,9 @@
 - `output/{YYYYMMDD}_{company}/en_resume/05_resume/variant_B.md`
 - `output/{YYYYMMDD}_{company}/en_resume/05_resume/variant_C.md`
 - `output/{YYYYMMDD}_{company}/en_resume/06_ats_report.md`
-- `data/profile.md`
-- `data/experience_bullets/claim_registry.yaml`
+- `workspace/profile/*.md`
+- `workspace/claims/claim_registry.yaml`
+- legacy fallback: `data/profile.md`, `data/experience_bullets/claim_registry.yaml`
 
 ## 사용 도구
 

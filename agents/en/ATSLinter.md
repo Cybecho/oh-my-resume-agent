@@ -23,7 +23,7 @@
 - `output/{YYYYMMDD}_{company}/en_resume/05_resume/variant_B.md`
 - `output/{YYYYMMDD}_{company}/en_resume/05_resume/variant_C.md`
 - `output/{YYYYMMDD}_{company}/en_resume/02_jd_analysis.md`
-- `data/experience_bullets/claim_registry.yaml`
+- `workspace/claims/claim_registry.yaml` (legacy fallback: `data/experience_bullets/claim_registry.yaml`)
 
 ## 사용 도구
 
