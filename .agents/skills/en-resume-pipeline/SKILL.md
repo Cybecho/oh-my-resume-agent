@@ -41,6 +41,6 @@ Use this skill for full end-to-end EN resume generation.
 ## Guardrails
 
 - Do not update KOR `state.json`.
-- Use data priority: cards -> bullets -> claim registry.
+- Resolve EN evidence in this order: `workspace/experience_cards/*.md` -> `workspace/claims/claim_registry.yaml` -> `workspace/profile/*.md`; use `data/*` only as legacy private-seed fallback.
 - Use approved claims only for numeric statements.
 - Step 8 publish is optional/manual and must enforce ATS + review gate checks.
