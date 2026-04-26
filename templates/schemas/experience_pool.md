@@ -11,7 +11,8 @@
 
 ## 수집 경로
 - Notion: {검색 키워드} → {N}건 조회 (선택)
-- 로컬: data/experience_cards/ → {N}건 확인 (우선)
+- 로컬: workspace/experience_cards/ → {N}건 확인 (우선)
+- claim registry: workspace/claims/claim_registry.yaml → approved claim 확인
 
 ## 후보 경험 목록
 
