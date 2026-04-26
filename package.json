@@ -1,0 +1,62 @@
+{
+  "name": "oh-my-resume-agent",
+  "version": "0.1.0",
+  "description": "Local-first resume and self-introduction agent harness for Codex and Claude Code.",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cybecho/oh-my-resume-agent.git"
+  },
+  "files": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "README.md",
+    "RESUME작성기.md",
+    "agents/",
+    ".agents/skills/",
+    ".claude/rules/",
+    ".claude/skills/",
+    ".github/skills/",
+    ".omr/README.md",
+    "bin/",
+    "config/",
+    "data/README.md",
+    "docs/",
+    "output/README.md",
+    "plan/",
+    "requirements/",
+    "scripts/en_resume_publish.py",
+    "templates/",
+    "userinfo/README.md",
+    "userinfo/raw/.gitkeep",
+    "userinfo/job_posts/.gitkeep",
+    "workspace/README.md",
+    "workspace/profile/.gitkeep",
+    "workspace/experience_cards/.gitkeep",
+    "workspace/claims/.gitkeep",
+    "workspace/writing_samples/.gitkeep",
+    "workspace/job_posts/.gitkeep",
+    "workspace/feedback/.gitkeep"
+  ],
+  "bin": {
+    "omr": "./bin/omr",
+    "resume": "./bin/resume"
+  },
+  "scripts": {
+    "doctor": "node ./bin/omr doctor",
+    "status": "node ./bin/omr status",
+    "eval:privacy": "node ./bin/omr eval privacy",
+    "eval:skills": "node ./bin/omr eval skills"
+  },
+  "keywords": [
+    "resume",
+    "cover-letter",
+    "codex",
+    "claude-code",
+    "agent-harness"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}

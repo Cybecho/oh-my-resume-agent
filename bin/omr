@@ -1,0 +1,294 @@
+#!/usr/bin/env node
+import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { dirname, join, relative, resolve } from 'node:path';
+import { createInterface } from 'node:readline/promises';
+import { stdin as input, stdout as output } from 'node:process';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const ROOT = resolve(process.cwd());
+
+const REQUIRED_DIRS = [
+  'userinfo/raw',
+  'userinfo/job_posts',
+  'workspace/profile',
+  'workspace/experience_cards',
+  'workspace/claims',
+  'workspace/writing_samples',
+  'workspace/job_posts',
+  'workspace/feedback',
+  'output'
+];
+
+const RUNTIME_DIRS = [
+  '.omr/state',
+  '.omr/logs',
+  '.omr/plans'
+];
+
+const REQUIRED_FILES = [
+  'AGENTS.md',
+  'CLAUDE.md',
+  'userinfo/README.md',
+  'workspace/README.md',
+  'data/README.md',
+  'output/README.md',
+  '.omr/README.md',
+  '.agents/skills/self-intro-pipeline/SKILL.md',
+  '.agents/skills/en-resume-pipeline/SKILL.md',
+  '.claude/skills/자소서.md',
+  '.claude/skills/resume.md',
+  'templates/samples/profile.sample.md',
+  'templates/samples/experience_card.sample.md',
+  'templates/samples/claim_registry.sample.yaml',
+  'templates/samples/writing_sample.sample.md'
+];
+
+const PUBLIC_SAFE_DATA_FILES = new Set(['data/README.md', 'output/README.md']);
+const PRIVATE_PATH_PREFIXES = ['data/', 'output/', 'userinfo/raw/', 'userinfo/job_posts/', 'workspace/'];
+const PII_PATTERNS = [
+  { name: 'phone number', regex: /(?:\+?82[-\s]?)?0?10[-\s]?\d{4}[-\s]?\d{4}/i },
+  { name: 'email address', regex: /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i },
+  { name: 'real output company marker', regex: /2026\d{4}_(?:IBM|PSI|MetLife|LG유플러스|유진투자선물|삼성전자|카카오)/ }
+];
+
+function rel(path) {
+  return relative(ROOT, path) || '.';
+}
+
+function pathExists(path) {
+  return existsSync(join(ROOT, path));
+}
+
+function ensureDir(path) {
+  mkdirSync(join(ROOT, path), { recursive: true });
+}
+
+function ensureFile(path, content = '') {
+  const fullPath = join(ROOT, path);
+  mkdirSync(dirname(fullPath), { recursive: true });
+  if (!existsSync(fullPath)) writeFileSync(fullPath, content, 'utf8');
+}
+
+function listFiles(path) {
+  const fullPath = join(ROOT, path);
+  if (!existsSync(fullPath)) return [];
+  const entries = readdirSync(fullPath);
+  return entries.filter((entry) => entry !== '.gitkeep');
+}
+
+function countFiles(path) {
+  const fullPath = join(ROOT, path);
+  if (!existsSync(fullPath)) return 0;
+  let count = 0;
+  for (const entry of readdirSync(fullPath)) {
+    if (entry === '.gitkeep' || entry === 'README.md') continue;
+    const entryPath = join(fullPath, entry);
+    if (statSync(entryPath).isDirectory()) count += countFiles(relative(ROOT, entryPath));
+    else count += 1;
+  }
+  return count;
+}
+
+function writeState(command) {
+  ensureDir('.omr/state');
+  const statePath = join(ROOT, '.omr/state/project.json');
+  const state = {
+    project: 'oh-my-resume-agent',
+    version: '0.1.0',
+    last_command: command,
+    updated_at: new Date().toISOString(),
+    root_hash: createHash('sha256').update(ROOT).digest('hex').slice(0, 12),
+    note: 'No private source document content is stored here.'
+  };
+  writeFileSync(statePath, JSON.stringify(state, null, 2) + '\n', 'utf8');
+}
+
+function getTrackedFiles() {
+  try {
+    const files = execFileSync('git', ['ls-files'], { cwd: ROOT, encoding: 'utf8' })
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean);
+    return { ok: true, files, error: '' };
+  } catch (error) {
+    return { ok: false, files: [], error: error instanceof Error ? error.message : String(error) };
+  }
+}
+
+function result(ok, label, detail) {
+  const symbol = ok ? '✓' : '✗';
+  return { ok, text: `${symbol} ${label}${detail ? ` — ${detail}` : ''}` };
+}
+
+function printResults(title, results) {
+  console.log(`\n${title}`);
+  for (const item of results) console.log(item.text);
+  return results.every((item) => item.ok);
+}
+
+function init({ quiet = false } = {}) {
+  for (const dir of REQUIRED_DIRS) ensureDir(dir);
+  for (const dir of RUNTIME_DIRS) ensureDir(dir);
+  ensureFile('userinfo/raw/.gitkeep');
+  ensureFile('userinfo/job_posts/.gitkeep');
+  ensureFile('workspace/profile/.gitkeep');
+  ensureFile('workspace/experience_cards/.gitkeep');
+  ensureFile('workspace/claims/.gitkeep');
+  ensureFile('workspace/writing_samples/.gitkeep');
+  ensureFile('workspace/job_posts/.gitkeep');
+  ensureFile('workspace/feedback/.gitkeep');
+  writeState('init');
+  if (quiet) return;
+  console.log('Oh My Resume-Agent initialized.');
+  console.log('Next: put private source files in userinfo/raw/, job posts in userinfo/job_posts/, then run `resume doctor`.');
+  console.log('Actual drafting still runs inside Codex or Claude Code from this repository root.');
+}
+
+async function setup() {
+  console.log('Oh My Resume-Agent setup');
+  console.log('This text UI prepares local folders only; resume writing still runs in Codex or Claude Code.');
+  init({ quiet: true });
+
+  if (!process.stdin.isTTY || !process.stdout.isTTY) {
+    console.log('Non-interactive shell detected. Created folders and state; run `resume paths` to see where to place files.');
+    status();
+    return;
+  }
+
+  const rl = createInterface({ input, output });
+  try {
+    const hasSources = (await rl.question('Have you placed resume/essay/career files in userinfo/raw/? [y/N] ')).trim().toLowerCase().startsWith('y');
+    const hasJobPost = (await rl.question('Have you placed copied JD/PDF/screenshots in userinfo/job_posts/ if URL crawling may fail? [y/N] ')).trim().toLowerCase().startsWith('y');
+    console.log('\nSetup summary');
+    console.log(`- Source documents: ${hasSources ? 'ready to normalize' : 'add files to userinfo/raw/'}`);
+    console.log(`- Job-post fallback: ${hasJobPost ? 'available' : 'optional; add files when URL crawling fails'}`);
+    console.log('- Next command: resume doctor');
+  } finally {
+    rl.close();
+  }
+}
+
+function status() {
+  const rawCount = countFiles('userinfo/raw');
+  const jobPostCount = countFiles('userinfo/job_posts');
+  const normalizedCount = countFiles('workspace');
+  const statePath = '.omr/state/project.json';
+  console.log('Oh My Resume-Agent status');
+  console.log(`Root: ${ROOT}`);
+  console.log(`Private source files: ${rawCount} in userinfo/raw/`);
+  console.log(`Job-post fallback files: ${jobPostCount} in userinfo/job_posts/`);
+  console.log(`Normalized workspace files: ${normalizedCount} in workspace/`);
+  console.log(`Local state: ${pathExists(statePath) ? statePath : 'not initialized'}`);
+  console.log(rawCount > 0 ? 'Next: run Codex or Claude Code and invoke the KOR/EN pipeline.' : 'Next: add your resume, essays, or career notes to userinfo/raw/.');
+}
+
+function paths() {
+  const pathsToPrint = ['userinfo/raw', 'userinfo/job_posts', 'workspace', 'output', '.omr/state'];
+  for (const path of pathsToPrint) console.log(`${path}: ${join(ROOT, path)}`);
+}
+
+function config() {
+  console.log('Oh My Resume-Agent config');
+  console.log('CLI role: setup, status, doctor, and release checks only.');
+  console.log('KOR generation: Codex skill `self-intro-pipeline` or Claude command `/자소서`.');
+  console.log('EN generation: Codex skill `en-resume-pipeline` or Claude command `/resume`.');
+  console.log('Unsupported in v0: automatic broad document ingestion, OCR, HWP/PPTX/Excel parsing, and direct LLM generation from this CLI.');
+}
+
+function doctor() {
+  const dirChecks = REQUIRED_DIRS.map((dir) => result(pathExists(dir), dir, pathExists(dir) ? 'ready' : 'missing'));
+  const fileChecks = REQUIRED_FILES.map((file) => result(pathExists(file), file, pathExists(file) ? 'found' : 'missing'));
+  const rawCount = countFiles('userinfo/raw');
+  const jobPostCount = countFiles('userinfo/job_posts');
+  const readiness = [
+    result(rawCount > 0, 'private source documents', rawCount > 0 ? `${rawCount} file(s)` : 'add files to userinfo/raw/'),
+    result(true, 'job-post fallback documents', jobPostCount > 0 ? `${jobPostCount} file(s)` : 'optional; add copied JD/PDF/screenshots to userinfo/job_posts/ when URL crawling fails'),
+    result(pathExists('.agents/skills/en-resume-pipeline/SKILL.md') && pathExists('.claude/skills/resume.md'), 'Codex + Claude EN surfaces', 'documented'),
+    result(pathExists('.agents/skills/self-intro-pipeline/SKILL.md') && pathExists('.claude/skills/자소서.md'), 'Codex + Claude KOR surfaces', 'documented')
+  ];
+  const dirsOk = printResults('Directory checks', dirChecks);
+  const filesOk = printResults('Required file checks', fileChecks);
+  printResults('Readiness checks', readiness);
+  console.log('\nJob URL fallback: if crawling fails, paste the JD text manually or save the page as PDF with Ctrl+P into userinfo/job_posts/.');
+  process.exitCode = dirsOk && filesOk ? 0 : 1;
+}
+
+function evalPrivacy() {
+  const trackedResult = getTrackedFiles();
+  if (!trackedResult.ok) {
+    console.log('✗ privacy gate failed');
+    console.log('- git tracked-file inventory is unavailable; run this check inside a git repository before release.');
+    console.log(`- detail: ${trackedResult.error}`);
+    process.exitCode = 1;
+    return;
+  }
+  const tracked = trackedResult.files;
+  const findings = [];
+  for (const path of tracked) {
+    if (PRIVATE_PATH_PREFIXES.some((prefix) => path.startsWith(prefix)) && !PUBLIC_SAFE_DATA_FILES.has(path) && !path.endsWith('/.gitkeep') && !path.endsWith('/README.md')) {
+      findings.push(`${path}: private path is tracked`);
+      continue;
+    }
+    if (!/\.(md|json|yaml|yml|txt|js|mjs|cjs)$/.test(path)) continue;
+    const content = readFileSync(join(ROOT, path), 'utf8');
+    for (const pattern of PII_PATTERNS) {
+      if (pattern.regex.test(content) && !path.startsWith('plan/')) findings.push(`${path}: possible ${pattern.name}`);
+    }
+  }
+  if (findings.length === 0) {
+    console.log('✓ privacy gate passed: no tracked private paths or obvious PII patterns found.');
+    return;
+  }
+  console.log('✗ privacy gate failed');
+  for (const finding of findings) console.log(`- ${finding}`);
+  process.exitCode = 1;
+}
+
+function evalSkills() {
+  const codexSkills = new Set(listFiles('.agents/skills'));
+  const githubSkills = new Set(listFiles('.github/skills'));
+  const requiredCodex = ['self-intro-pipeline', 'en-resume-pipeline'];
+  const results = [
+    ...requiredCodex.map((skill) => result(codexSkills.has(skill), `Codex skill ${skill}`, codexSkills.has(skill) ? 'found' : 'missing')),
+    result(pathExists('.claude/skills/자소서.md'), 'Claude KOR skill /자소서', pathExists('.claude/skills/자소서.md') ? 'found' : 'missing'),
+    result(pathExists('.claude/skills/resume.md'), 'Claude EN skill /resume', pathExists('.claude/skills/resume.md') ? 'found' : 'missing'),
+    result(githubSkills.has('self-intro-pipeline'), 'GitHub KOR surface', githubSkills.has('self-intro-pipeline') ? 'found' : 'v0 unsupported unless mirrored'),
+    result(!githubSkills.has('en-resume-pipeline'), 'GitHub EN surface support marker', 'v0 unsupported; documented in README')
+  ];
+  const ok = printResults('Skill surface checks', results);
+  process.exitCode = ok ? 0 : 1;
+}
+
+function help(alias = 'omr') {
+  console.log(`Usage: ${alias} <command>`);
+  console.log('Commands: setup, init, status, doctor, config, paths, eval privacy, eval skills');
+  console.log('Alias: `resume` runs the same control-plane CLI as `omr`.');
+}
+
+export async function main(args = process.argv.slice(2), options = {}) {
+  if (args.length === 0) {
+    if (pathExists('.omr/state/project.json')) return status();
+    return init();
+  }
+  const command = args[0] || 'help';
+  if (command === 'help' || command === '--help' || command === '-h') return help(options.alias || 'omr');
+  if (command === 'setup') return setup();
+  if (command === 'init') return init();
+  if (command === 'status') return status();
+  if (command === 'doctor') return doctor();
+  if (command === 'config') return config();
+  if (command === 'paths') return paths();
+  if (command === 'eval' && args[1] === 'privacy') return evalPrivacy();
+  if (command === 'eval' && args[1] === 'skills') return evalSkills();
+  return help(options.alias || 'omr');
+}
+
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exitCode = 1;
+  });
+}
