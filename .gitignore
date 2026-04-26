@@ -1,0 +1,59 @@
+# oh-my-resume-agent public repo hygiene
+# Keep the agent harness public, but never commit a user's private career data
+# or generated company-specific application outputs.
+
+# Private user inputs / normalized evidence
+userinfo/raw/**
+userinfo/job_posts/**
+!userinfo/
+!userinfo/README.md
+!userinfo/raw/
+!userinfo/raw/.gitkeep
+!userinfo/job_posts/
+!userinfo/job_posts/.gitkeep
+
+# Legacy private data location from the seed project
+# Public repos may keep only the README explaining the migration.
+data/**
+!data/
+!data/README.md
+
+# Normalized workspace generated from user inputs
+workspace/**
+!workspace/
+!workspace/README.md
+!workspace/profile/
+!workspace/profile/.gitkeep
+!workspace/experience_cards/
+!workspace/experience_cards/.gitkeep
+!workspace/claims/
+!workspace/claims/.gitkeep
+!workspace/writing_samples/
+!workspace/writing_samples/.gitkeep
+!workspace/job_posts/
+!workspace/job_posts/.gitkeep
+
+# Generated application outputs
+output/**
+!output/
+!output/README.md
+
+# Local runtime state and logs
+.omx/
+.omr/state/**
+.omr/logs/**
+!.omr/
+!.omr/README.md
+
+# Editor / local agent state
+.obsidian/
+.claude/settings.local.json
+.agents/_writetest
+
+# Python / OS noise
+__pycache__/
+scripts/__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db
+*.log

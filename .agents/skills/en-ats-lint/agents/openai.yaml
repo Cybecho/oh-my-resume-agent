@@ -1,0 +1,6 @@
+interface:
+  display_name: "EN ATS Lint"
+  short_description: "Run ATS hard-fail and score checks for EN variants"
+  default_prompt: "Use $skill-name to validate EN resume variants with ATS checks."
+  policy:
+    allow_implicit_invocation: true

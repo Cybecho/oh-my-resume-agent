@@ -1,0 +1,6 @@
+interface:
+  display_name: "기획 단계"
+  short_description: "매칭 기반으로 3개 기획 콘셉트와 배치를 제시"
+  default_prompt: "Use $skill-name to create three planning concepts."
+  policy:
+    allow_implicit_invocation: true

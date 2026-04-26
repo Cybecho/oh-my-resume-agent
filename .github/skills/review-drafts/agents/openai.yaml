@@ -1,0 +1,6 @@
+interface:
+  display_name: "자소서 검수"
+  short_description: "문항별 초안을 8항목 룰로 검수해 우선순위를 정함"
+  default_prompt: "Use $skill-name to review drafts and produce a ranked report."
+  policy:
+    allow_implicit_invocation: true

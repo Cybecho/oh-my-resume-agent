@@ -1,0 +1,6 @@
+interface:
+  display_name: "EN Resume Publish"
+  short_description: "Generate local DOCX + Figma outputs from reviewed EN resume"
+  default_prompt: "Use $skill-name to run optional step 8 publish for EN resume outputs."
+  policy:
+    allow_implicit_invocation: true

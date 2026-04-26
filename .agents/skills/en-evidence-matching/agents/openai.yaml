@@ -1,0 +1,6 @@
+interface:
+  display_name: "EN Evidence Match"
+  short_description: "Match JD requirements to evidence-backed experiences"
+  default_prompt: "Use $skill-name to map JD requirements to evidence and claims."
+  policy:
+    allow_implicit_invocation: true

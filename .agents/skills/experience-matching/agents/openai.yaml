@@ -1,0 +1,6 @@
+interface:
+  display_name: "경험 매칭"
+  short_description: "JD 기준으로 후보를 선별 후 문항별 매칭 갱신"
+  default_prompt: "Use $skill-name to rebuild experience pool and mapping."
+  policy:
+    allow_implicit_invocation: true

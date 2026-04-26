@@ -1,0 +1,6 @@
+interface:
+  display_name: "EN Resume Write"
+  short_description: "Write three EN resume variants from approved evidence"
+  default_prompt: "Use $skill-name to write variants A/B/C for EN resume output."
+  policy:
+    allow_implicit_invocation: true

@@ -1,0 +1,6 @@
+interface:
+  display_name: "EN Resume Review"
+  short_description: "Review EN variants with 10 criteria and pick top version"
+  default_prompt: "Use $skill-name to review EN resume outputs and recommend one variant."
+  policy:
+    allow_implicit_invocation: true

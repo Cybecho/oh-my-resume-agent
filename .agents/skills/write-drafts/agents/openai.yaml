@@ -1,0 +1,6 @@
+interface:
+  display_name: "자소서 작성"
+  short_description: "기획안을 기준으로 3개 초안 버전을 생성하고 저장"
+  default_prompt: "Use $skill-name to draft three resume concept versions."
+  policy:
+    allow_implicit_invocation: true

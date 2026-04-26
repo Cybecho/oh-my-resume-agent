@@ -1,0 +1,6 @@
+interface:
+  display_name: "기업 조사"
+  short_description: "회사 조사와 문화 키워드를 추출해 기초 정보 갱신"
+  default_prompt: "Use $skill-name to refresh company investigation results."
+  policy:
+    allow_implicit_invocation: true

@@ -1,0 +1,39 @@
+{
+  "default_targets": [
+    "docx",
+    "figma"
+  ],
+  "gate": {
+    "require_ats_pass": true,
+    "require_top_pick": true,
+    "require_no_mandatory_fixes": true
+  },
+  "docx": {
+    "template_path": "templates/docx/en_resume_template.docx",
+    "output_name_pattern": "{YYYYMMDD}_{company}_{variant}.docx",
+    "jinja_strict": true,
+    "section_mapping": {
+      "resume_name": "name",
+      "resume_header_line": "header_line",
+      "resume_location": "location",
+      "resume_phone": "phone",
+      "resume_email": "email",
+      "resume_linkedin": "linkedin",
+      "resume_summary": "summary",
+      "resume_technical_skills": "technical_skills",
+      "resume_experience": "experience",
+      "resume_projects": "projects",
+      "resume_education": "education",
+      "resume_certifications": "certifications",
+      "resume_full_markdown": "full_markdown"
+    }
+  },
+  "figma": {
+    "transport": "remote",
+    "file_key": "TODO_SET_FIGMA_FILE_KEY",
+    "page_node_id": "TODO_SET_FIGMA_PAGE_NODE_ID",
+    "page_url": "TODO_SET_FIGMA_PAGE_URL",
+    "template_frame_name": "TODO_SET_FIGMA_TEMPLATE_FRAME_NAME",
+    "owner_email": "TODO_SET_FIGMA_OWNER_EMAIL"
+  }
+}

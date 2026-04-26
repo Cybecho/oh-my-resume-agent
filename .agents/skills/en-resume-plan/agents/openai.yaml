@@ -1,0 +1,6 @@
+interface:
+  display_name: "EN Resume Plan"
+  short_description: "Design three differentiated EN resume variants"
+  default_prompt: "Use $skill-name to create an EN resume plan for variants A/B/C."
+  policy:
+    allow_implicit_invocation: true

@@ -1,0 +1,6 @@
+interface:
+  display_name: "자소서 전체 파이프라인"
+  short_description: "조사부터 검수까지 7단계 파이프라인을 한 번에 실행"
+  default_prompt: "Use $skill-name to run the full resume workflow."
+  policy:
+    allow_implicit_invocation: true

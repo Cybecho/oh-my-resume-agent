@@ -1,0 +1,6 @@
+interface:
+  display_name: "EN JD Analysis"
+  short_description: "Extract Must/Nice keyword buckets for EN resumes"
+  default_prompt: "Use $skill-name to analyze JD and produce EN resume keyword buckets."
+  policy:
+    allow_implicit_invocation: true

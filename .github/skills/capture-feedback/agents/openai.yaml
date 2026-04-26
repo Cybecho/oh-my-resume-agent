@@ -1,0 +1,6 @@
+interface:
+  display_name: "피드백 반영"
+  short_description: "제출 결과를 기록해 다음 매칭·작성 가중치에 반영"
+  default_prompt: "Use $skill-name to record submission outcome and notes."
+  policy:
+    allow_implicit_invocation: true

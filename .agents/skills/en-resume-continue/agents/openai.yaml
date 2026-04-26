@@ -1,0 +1,6 @@
+interface:
+  display_name: "EN Resume Continue"
+  short_description: "Resume EN core steps, and recover optional step 8 only if in progress"
+  default_prompt: "Use $skill-name to continue interrupted EN resume workflow."
+  policy:
+    allow_implicit_invocation: true

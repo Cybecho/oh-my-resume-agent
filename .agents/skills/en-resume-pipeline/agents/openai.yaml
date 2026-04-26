@@ -1,0 +1,6 @@
+interface:
+  display_name: "EN Resume Pipeline"
+  short_description: "Run EN core pipeline (step 1~7) with ATS/review gates"
+  default_prompt: "Use $skill-name to generate three English resume variants from a JD."
+  policy:
+    allow_implicit_invocation: true
