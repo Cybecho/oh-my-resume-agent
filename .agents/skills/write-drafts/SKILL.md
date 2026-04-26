@@ -16,10 +16,11 @@ description: "Run only step 7 (`/작성`) to generate three drafts from planning
 ## 실행
 
 1. `agents/필체선생.md` 읽기
-2. `data/writing_samples/` 전반을 문체 참조용으로 읽기
-3. `data/experience_cards/*.md`를 우선 원천으로, 필요 시 legacy/보조 소스로 매칭 근거 확인
-4. `07_자소서/컨셉1.md`, `컨셉2.md`, `컨셉3.md`를 저장
-5. `state.json`의 step 7 완료 처리
+2. `workspace/writing_samples/` 전반을 문체 참조용으로 읽기
+3. `workspace/experience_cards/*.md`를 우선 원천으로, `workspace/claims/claim_registry.yaml`의 `approved` claim으로 수치 확인
+4. 기존 개인용 seed에서만 `data/writing_samples/`, `data/experience_cards/*.md`를 legacy fallback으로 확인
+5. `07_자소서/컨셉1.md`, `컨셉2.md`, `컨셉3.md`를 저장
+6. `state.json`의 step 7 완료 처리
 
 ## 완료 후
 

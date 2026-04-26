@@ -16,9 +16,11 @@ description: "Run the full 7-step workflow for `/자소서` (complete pipeline: 
 2. `output/`에 대상 폴더(`output/{YYYYMMDD}_{회사명}`)가 없으면 생성한다.
 3. `state.json`를 초기화하거나 기존 파일을 읽어 현재 상태를 파악한다.
 4. 다음 규칙으로 실행 가능 여부를 확인한다.
-   - `/경험 데이터`는 `data/experience_cards/*.md`를 우선 사용
-   - 필요 시 `13_모든경험_인덱스맵`, `14_경험_검색_선별_대시보드`, `00_TAG_INDEX` 활용
-   - `data/experiences/_index.md`는 보조 레거시 소스
+   - `/경험 데이터`는 `workspace/experience_cards/*.md`를 우선 사용
+   - 수치/성과는 `workspace/claims/claim_registry.yaml`의 `approved` claim만 최종 사용
+   - 문체는 `workspace/writing_samples/*.md`를 우선 사용
+   - 기존 개인용 seed에서만 `data/experience_cards/`, `data/experiences/_index.md`, `data/writing_samples/`를 legacy fallback으로 사용
+   - `workspace/`가 비어 있으면 `resume doctor`와 `userinfo/` 입력 안내를 먼저 제시
    - Notion MCP는 보강 수단으로만 사용
 
 ## 실행 순서
