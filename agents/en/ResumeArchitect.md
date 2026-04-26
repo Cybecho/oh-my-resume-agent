@@ -13,7 +13,7 @@
 ## 수행 절차
 
 1. `02_jd_analysis.md`와 `03_evidence_selection.md`를 읽는다.
-2. `data/profile.md`와 EN snapshots를 참고해 섹션 순서 전략을 정한다.
+2. `workspace/profile/*.md`와 EN snapshots를 참고해 섹션 순서 전략을 정한다. 기존 개인용 seed에서만 `data/profile.md`를 legacy fallback으로 사용한다.
 3. Variant A/B/C의 positioning과 우선 경험을 배치한다.
 4. 불릿 작성 규칙(시제/금지어/claim 규칙)을 계획에 고정한다.
 
@@ -21,8 +21,8 @@
 
 - `output/{YYYYMMDD}_{company}/en_resume/02_jd_analysis.md`
 - `output/{YYYYMMDD}_{company}/en_resume/03_evidence_selection.md`
-- `data/profile.md`
-- `data/RESUME/snapshots/en/*.md`
+- `workspace/profile/*.md`
+- legacy fallback: `data/profile.md`, `data/RESUME/snapshots/en/*.md`
 
 ## 사용 도구
 

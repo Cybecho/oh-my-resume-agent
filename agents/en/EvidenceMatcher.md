@@ -6,27 +6,26 @@
 
 ## 핵심 지식
 
-- 사실 우선순위: cards -> bullets -> claim registry.
+- 사실 우선순위: workspace cards -> workspace claim registry -> legacy private seed fallback.
 - 수치/성과는 claim 검증 없이 사용하면 안 된다.
 - 동일 경험을 variant마다 재사용하되 강조축을 달리해야 한다.
 
 ## 수행 절차
 
 1. `02_jd_analysis.md`에서 키워드/책임을 읽는다.
-2. `data/experience_cards/*.md`에서 사실 후보를 수집한다.
-3. `data/experience_bullets/*.md`에서 영문 표현 후보를 연결한다.
-4. `claim_registry.yaml`에서 claim 상태를 검증한다.
+2. `workspace/experience_cards/*.md`에서 사실 후보를 수집한다.
+3. `workspace/claims/claim_registry.yaml`에서 claim 상태를 검증한다.
+4. 기존 개인용 seed에서만 `data/experience_cards/*.md`, `data/experience_bullets/*.md`, `data/experience_bullets/claim_registry.yaml`를 legacy fallback으로 사용한다.
 5. 점수화(`must/nice/claim/role_fit/recency`) 후 A/B/C 후보를 선정한다.
 6. 근거 경로와 claim_id를 표로 기록한다.
 
 ## 입력
 
 - `output/{YYYYMMDD}_{company}/en_resume/02_jd_analysis.md`
-- `data/experience_cards/*.md`
-- `data/experience_bullets/*.md`
-- `data/experience_bullets/claim_registry.yaml`
-- `data/RESUME/snapshots/en/*.md`
-- `data/profile.md`
+- `workspace/experience_cards/*.md`
+- `workspace/claims/claim_registry.yaml`
+- `workspace/profile/*.md`
+- legacy fallback: `data/experience_cards/*.md`, `data/experience_bullets/*.md`, `data/experience_bullets/claim_registry.yaml`, `data/RESUME/snapshots/en/*.md`, `data/profile.md`
 
 ## 사용 도구
 

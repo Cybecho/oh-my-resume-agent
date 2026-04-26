@@ -13,7 +13,7 @@
 ## 수행 절차
 
 1. `04_resume_plan.md`와 `03_evidence_selection.md`를 읽는다.
-2. `data/profile.md`로 헤더/교육/기본정보를 채운다.
+2. `workspace/profile/*.md`로 헤더/교육/기본정보를 채운다. 기존 개인용 seed에서만 `data/profile.md`를 legacy fallback으로 사용한다.
 3. Variant A/B/C 각각을 영어로 작성한다.
 4. 각 bullet에 `experience_id`, `claim_ids` provenance 주석을 남긴다.
 5. 수치/기간 왜곡이 없는지 자체 점검 후 저장한다.
@@ -22,9 +22,10 @@
 
 - `output/{YYYYMMDD}_{company}/en_resume/04_resume_plan.md`
 - `output/{YYYYMMDD}_{company}/en_resume/03_evidence_selection.md`
-- `data/profile.md`
-- `data/experience_bullets/*.md`
-- `data/experience_bullets/claim_registry.yaml`
+- `workspace/profile/*.md`
+- `workspace/experience_cards/*.md`
+- `workspace/claims/claim_registry.yaml`
+- legacy fallback: `data/profile.md`, `data/experience_bullets/*.md`, `data/experience_bullets/claim_registry.yaml`
 
 ## 사용 도구
 
