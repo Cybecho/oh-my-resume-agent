@@ -1,3 +1,5 @@
+![Oh-My-Resume-Agent](image/Oh-My-Resume-Agent.png)
+
 # oh-my-resume-agent (자소서 선생)
 
 지원서 작성도 혼자 하지 않는다. Oh My Resume-Agent는 Codex와 Claude Code 위에서 한국어 자기소개서와 영문 Resume 생성을 더 안전하게 수행하도록 돕는 local-first agent harness입니다.
