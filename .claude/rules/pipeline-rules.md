@@ -43,7 +43,7 @@
    - 설정된 경우에만 보강 수단으로 사용
 9. 가능한 한 로컬과 보조 소스 모두 교차 검증 후 누락 없는 선별 수행
 
-public template에서 `workspace/`가 비어 있으면 경험을 창작하지 말고 `resume init`, `resume doctor`, `userinfo/` 입력 안내를 먼저 제시한다.
+public template에서 `workspace/`가 비어 있으면 경험을 창작하지 말고 `omr init`, `omr doctor`, `userinfo/` 입력 안내를 먼저 제시한다.
 
 ## 언어 및 톤
 

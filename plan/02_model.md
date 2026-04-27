@@ -5,7 +5,7 @@
 ## 1. 전체 시스템 모델
 
 ```text
-resume CLI/TUI
+omr CLI/TUI
   ├─ init / doctor / status / config
   └─ 사용자의 데이터 준비 상태 안내
 
@@ -36,21 +36,21 @@ Evaluation Layer
   └─ release readiness check
 ```
 
-## 2. `resume` CLI/TUI의 역할
+## 2. `omr` CLI/TUI의 역할
 
-`resume` 명령은 AI 생성기가 아니라 설정·검사·안내 도구다.
+`omr` 명령은 AI 생성기가 아니라 설정·검사·안내 도구다. `resume`은 같은 CLI의 alias다.
 
 권장 명령:
 
 ```text
-resume init      # 최초 설정 TUI
-resume status    # 현재 사용자 데이터와 설정 상태 출력
-resume doctor    # 설치/환경/데이터 준비 상태 검사
-resume config    # Codex/Claude/경로 설정 확인 및 변경
-resume paths     # userinfo, workspace, output 경로 표시
+omr init      # 최초 설정 TUI
+omr status    # 현재 사용자 데이터와 설정 상태 출력
+omr doctor    # 설치/환경/데이터 준비 상태 검사
+omr config    # Codex/Claude/경로 설정 확인 및 변경
+omr paths     # userinfo, workspace, output 경로 표시
 ```
 
-v0에서는 `resume`이 직접 LLM을 호출하지 않는다. 실제 생성 질의는 repo clone 위치에서 Codex 또는 Claude Code를 실행해 수행한다.
+v0에서는 `omr`이 직접 LLM을 호출하지 않는다. 실제 생성 질의는 repo clone 위치에서 Codex 또는 Claude Code를 실행해 수행한다.
 
 ## 3. 권장 디렉터리 모델
 

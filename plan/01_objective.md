@@ -10,8 +10,8 @@ v0의 성공 상태는 다음과 같다.
 
 - 개인 정보가 제거된 public template repo가 존재한다.
 - 사용자는 `curl` 또는 `npx` 계열 설치 경로로 프로젝트를 가져올 수 있다.
-- 사용자는 `resume` 명령을 실행해 최초 설정 TUI를 볼 수 있다.
-- 설정 완료 후 `resume` 명령은 현재 사용자 데이터 상태와 다음 행동을 안내한다.
+- 사용자는 `omr` 명령을 실행해 최초 설정 TUI를 볼 수 있다.
+- 설정 완료 후 `omr` 명령은 현재 사용자 데이터 상태와 다음 행동을 안내한다.
 - 사용자는 `userinfo/` 폴더에 자기 이력서, 자기소개서, 경력 자료를 넣을 수 있다.
 - Codex와 Claude Code 양쪽에서 동일한 목적의 skill/agent 흐름을 사용할 수 있다.
 - 채용공고 URL 접근 실패 시 복사/붙여넣기 또는 PDF 저장 fallback을 명확히 안내한다.
@@ -22,13 +22,13 @@ v0의 성공 상태는 다음과 같다.
 ```text
 설치
   ↓
-resume 실행
+omr 실행
   ↓
 TUI 초기 설정
   ↓
 userinfo/에 원본 자료 추가
   ↓
-resume doctor로 준비 상태 확인
+omr doctor로 준비 상태 확인
   ↓
 Codex 또는 Claude Code 실행
   ↓
@@ -44,8 +44,8 @@ KOR 자기소개서 또는 EN Resume 생성
 - public repo용 문서 구조 정리
 - 개인 데이터 제거 전략 수립
 - `userinfo/` 입력 폴더와 샘플 데이터 구조 도입
-- `resume` CLI/TUI skeleton
-- `resume init`, `resume doctor`, `resume status` 수준의 사용자 안내
+- `omr` CLI/TUI skeleton
+- `omr init`, `omr doctor`, `omr status` 수준의 사용자 안내
 - Codex `.agents/skills`와 Claude `.claude/skills` 실행 경로 정리
 - KOR/EN pipeline 규칙 문서화
 - URL 수집 실패 fallback 안내
@@ -57,7 +57,7 @@ KOR 자기소개서 또는 EN Resume 생성
 - HWP, PPTX, Excel, Notion URL의 완전 자동 ingestion
 - 모든 채용 사이트의 크롤링 보장
 - 이미지 기반 채용공고 OCR 완성
-- `resume` CLI 내부에서 LLM 호출로 자기소개서 직접 생성
+- `omr` CLI 내부에서 LLM 호출로 자기소개서 직접 생성
 - DOCX/Figma publish 완성
 
 ## 6. 장기 Objective

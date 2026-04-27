@@ -15,8 +15,8 @@
 ### Install Gates
 
 - 설치 경로가 README에 명확하다.
-- `resume init`이 최초 설정 흐름을 안내한다.
-- `resume doctor`가 필수 환경과 데이터 상태를 검사한다.
+- `omr init`이 최초 설정 흐름을 안내한다.
+- `omr doctor`가 필수 환경과 데이터 상태를 검사한다.
 - macOS/Linux 기준 PATH 또는 shell 설정 안내가 있다.
 
 ### Agent Compatibility Gates
@@ -41,7 +41,7 @@
 ### Documentation Gates
 
 - README는 한국어와 영어 사용자를 모두 고려한다.
-- `resume` 명령 사용법이 별도 섹션으로 정리되어 있다.
+- `omr` 명령 사용법이 별도 섹션으로 정리되어 있다.
 - v0에서 지원하지 않는 기능이 명확히 표시되어 있다.
 
 ## 2. Weighted Release Score
@@ -68,21 +68,21 @@ AND weighted score >= 85 / 100
 
 v0에서 구현할 수 있는 checker 후보:
 
-- `resume doctor`
+- `omr doctor`
   - 필수 폴더 존재
   - 설정 파일 존재
   - sample data 존재
   - Codex/Claude 안내 파일 존재
-- `resume eval privacy`
+- `omr eval privacy`
   - 금지 경로 또는 실제 output 포함 여부 확인
-- `resume eval skills`
+- `omr eval skills`
   - `.agents`, `.claude`, `.github` skill surface drift 확인
-- `resume eval data`
+- `omr eval data`
   - experience card frontmatter 검사
   - claim registry status 검사
-- `resume eval output`
+- `omr eval output`
   - state file과 output artifact 일치 검사
-- `resume eval publish`
+- `omr eval publish`
   - DOCX template, docxtpl, Figma config readiness 검사
 
 ## 4. Human-in-the-loop 평가

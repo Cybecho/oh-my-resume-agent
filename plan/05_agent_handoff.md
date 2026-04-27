@@ -29,8 +29,8 @@
 1. 개인 데이터 제거 목록 작성
 2. public sample data 설계
 3. `userinfo/`와 `workspace/` 구조 설계
-4. `resume` CLI 패키지 방식 결정
-5. `resume init/status/doctor` 최소 기능 구현
+4. `omr` CLI 패키지 방식 결정
+5. `omr init/status/doctor` 최소 기능 구현
 6. Codex/Claude 실행 문서 정리
 7. evaluation checker 최소 버전 설계
 
@@ -58,7 +58,7 @@
 - 기존 `output/`의 실제 회사명/지원 결과 산출물은 sample로 쓰지 않는다.
 - claim registry의 `candidate` claim은 최종 생성 본문 수치로 사용하지 않는다.
 - Playwright/OCR/HWP/Notion은 v0에서 “지원 예정”으로 두고, 실패 fallback을 먼저 만든다.
-- `resume` CLI는 AI 생성 실행기가 아니라 설정/상태/검증 안내 도구로 유지한다.
+- `omr` CLI는 AI 생성 실행기가 아니라 설정/상태/검증 안내 도구로 유지한다. `resume`은 alias로 유지한다.
 - 실제 생성은 Codex 또는 Claude Code agent/skill에서 수행한다.
 
 ## 5. 추천 작업 순서
@@ -68,7 +68,7 @@
 2. privacy inventory 작성
 3. sample data 설계
 4. package manifest 추가
-5. resume CLI skeleton 구현
+5. omr CLI skeleton 구현
 6. README bilingual quickstart 작성
 7. Codex/Claude skill sync 정책 정리
 8. evaluation checker 추가
@@ -80,9 +80,9 @@
 
 - [ ] public repo에 개인 정보가 없다.
 - [ ] `userinfo/` 구조가 문서화되어 있다.
-- [ ] `resume init`이 최초 설정을 안내한다.
-- [ ] `resume status`가 현재 상태를 출력한다.
-- [ ] `resume doctor`가 준비 상태와 누락 항목을 알려준다.
+- [ ] `omr init`이 최초 설정을 안내한다.
+- [ ] `omr status`가 현재 상태를 출력한다.
+- [ ] `omr doctor`가 준비 상태와 누락 항목을 알려준다.
 - [ ] Codex 실행법이 문서화되어 있다.
 - [ ] Claude Code 실행법이 문서화되어 있다.
 - [ ] KOR/EN pipeline이 public sample 기준으로 설명된다.
@@ -95,9 +95,9 @@
 
 ```bash
 find plan -maxdepth 1 -type f | sort
-resume doctor
-resume status
+omr doctor
+omr status
 git grep -n "실제 개인 식별자 후보"
 ```
 
-현재 repo에는 package manifest가 없으므로 실제 `resume` 명령 검증은 CLI 구현 이후 가능하다.
+현재 repo에는 package manifest가 없으므로 실제 `omr` 명령 검증은 CLI 구현 이후 가능하다.

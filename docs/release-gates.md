@@ -5,9 +5,9 @@ considered.
 
 ## Hard gates
 
-- `resume eval privacy` passes with no tracked private paths or obvious PII.
-- `resume doctor` can run from a clean clone and explain missing user data.
-- `resume init`, `resume status`, and `resume paths` work without network access.
+- `omr eval privacy` passes with no tracked private paths or obvious PII.
+- `omr doctor` can run from a clean clone and explain missing user data.
+- `omr init`, `omr status`, and `omr paths` work without network access.
 - Codex and Claude Code execution paths are documented.
 - Unsupported v0 features are explicitly listed.
 - Job-post URL failure fallback is documented.

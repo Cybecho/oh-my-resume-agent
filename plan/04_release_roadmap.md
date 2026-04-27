@@ -11,8 +11,8 @@
 - 개인 데이터 제거 또는 synthetic sample로 교체
 - `userinfo/` 입력 폴더 도입
 - `workspace/` 정규화 산출 폴더 도입
-- `resume` CLI/TUI skeleton 추가
-- `resume init`, `resume status`, `resume doctor` 제공
+- `omr` CLI/TUI skeleton 추가
+- `omr init`, `omr status`, `omr doctor` 제공
 - Codex/Claude 실행 README 정리
 - KOR/EN pipeline 문서 정리
 - URL 실패 fallback 안내 문서화
@@ -21,7 +21,7 @@
 완료 기준:
 
 - clean clone 후 설치 안내를 따라갈 수 있다.
-- `resume doctor`가 현재 준비 상태를 설명한다.
+- `omr doctor`가 현재 준비 상태를 설명한다.
 - sample data 기준으로 다음 에이전트가 KOR/EN 실행을 시작할 수 있다.
 
 ## v1 — Real Ingestion
@@ -80,7 +80,7 @@
 ## 권장 우선순위
 
 1. v0 template와 privacy gate
-2. `resume` CLI/TUI skeleton
+2. `omr` CLI/TUI skeleton
 3. skill surface sync
 4. sample data와 README bilingual 정리
 5. ingestion 자동화

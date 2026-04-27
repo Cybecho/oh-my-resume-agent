@@ -20,7 +20,7 @@ description: "Run the full 7-step workflow for `/자소서` (complete pipeline: 
    - 수치/성과는 `workspace/claims/claim_registry.yaml`의 `approved` claim만 최종 사용
    - 문체는 `workspace/writing_samples/*.md`를 우선 사용
    - 기존 개인용 seed에서만 `data/experience_cards/`, `data/experiences/_index.md`, `data/writing_samples/`를 legacy fallback으로 사용
-   - `workspace/`가 비어 있으면 `resume doctor`와 `userinfo/` 입력 안내를 먼저 제시
+   - `workspace/`가 비어 있으면 `omr doctor`와 `userinfo/` 입력 안내를 먼저 제시
    - Notion MCP는 보강 수단으로만 사용
 
 ## 실행 순서

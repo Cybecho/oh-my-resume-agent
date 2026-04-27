@@ -63,7 +63,7 @@ templates/schemas/ → 각 단계 출력 스키마
 5. **legacy fallback** — 기존 개인용 seed에서만 `data/experience_cards/`, `data/experiences/`, `data/writing_samples/`, `data/experience_bullets/` 보조 사용
 6. **Notion MCP(옵션)** — `notion-search` → `notion-fetch`로 보완 조회
 
-기본 파이프라인은 1~4번에서 누락 없는 후보를 구성한 뒤, 필요 시 5~6번으로 보완한다. public template 설치 직후 `workspace/`가 비어 있으면 원천 자료를 추측하지 말고 `resume doctor`와 `userinfo/` 안내를 먼저 제시한다.
+기본 파이프라인은 1~4번에서 누락 없는 후보를 구성한 뒤, 필요 시 5~6번으로 보완한다. public template 설치 직후 `workspace/`가 비어 있으면 원천 자료를 추측하지 말고 `omr doctor`와 `userinfo/` 안내를 먼저 제시한다.
 
 ---
 

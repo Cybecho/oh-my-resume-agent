@@ -2,41 +2,41 @@
 
 # oh-my-resume-agent (자소서 선생)
 
+[English README](README.en.md)
+
 지원서 작성도 혼자 하지 않는다. Oh My Resume-Agent는 Codex와 Claude Code 위에서 한국어 자기소개서와 영문 Resume 생성을 더 안전하게 수행하도록 돕는 local-first agent harness입니다.
 
-This is a local-first application-document agent harness for Codex and Claude Code. It prepares user data, checks readiness, documents fallbacks, and then lets the existing agent/skill pipelines generate Korean self-introductions and English resume drafts from grounded evidence.
+## v0 범위
 
-## v0 scope
+v0는 공개 템플릿 릴리스이며, 완전한 문서 파서나 독립형 AI 작성 앱이 아닙니다.
 
-v0 is a public template release, not a full document parser or standalone AI writer.
+- `omr`: setup, status, paths, doctor, release-gate 점검을 담당합니다. `resume`은 같은 CLI의 alias입니다.
+- `userinfo/`: 사용자별 비공개 원본 문서가 들어가는 경계입니다.
+- `workspace/`: 사용자 원천에서 정규화한 로컬 지식 베이스입니다.
+- Codex + Claude Code: 실제 KOR/EN 작성 파이프라인을 실행합니다.
+- 명시적 fallback: 채용공고 URL을 크롤링할 수 없으면 JD를 붙여넣거나 PDF로 저장해 `userinfo/job_posts/`에 둡니다.
 
-- `omr` / `resume`: setup, status, paths, doctor, and release-gate checks.
-- `userinfo/`: private raw source documents from each user.
-- `workspace/`: normalized local knowledge base generated from user sources.
-- Codex + Claude Code: actual KOR/EN drafting pipelines.
-- Explicit fallback: if a job-post URL cannot be crawled, paste the JD or save it as PDF into `userinfo/job_posts/`.
+v0에서 지원하지 않는 것: 완전한 PDF/DOCX/HWP/PPTX/Excel/Notion ingestion, 이미지 전용 채용공고 OCR, 모든 채용 사이트 크롤링 보장, `omr` CLI 내부의 직접 LLM 생성, DOCX/Figma publish 완료.
 
-Not supported in v0: complete PDF/DOCX/HWP/PPTX/Excel/Notion ingestion, OCR for image-only job posts, guaranteed crawling for every recruiting site, direct LLM generation inside the `resume` CLI, and DOCX/Figma publish completion.
-
-## Quickstart — Korean
+## 빠른 시작
 
 ```bash
 git clone https://github.com/Cybecho/oh-my-resume-agent.git
 cd oh-my-resume-agent
 npm install
 npm link
-resume setup
-resume doctor
+omr setup
+omr doctor
 ```
 
-Alternative install checks:
+대체 설치 점검:
 
 ```bash
-npx --yes --package github:Cybecho/oh-my-resume-agent resume doctor
+npx --yes --package github:Cybecho/oh-my-resume-agent omr doctor
 curl -L https://raw.githubusercontent.com/Cybecho/oh-my-resume-agent/main/README.md
 ```
 
-For a global shell command on macOS/Linux, either use `npm link` from the clone or ensure your npm global bin directory is on `PATH`:
+macOS/Linux에서 전역 shell command로 쓰려면 clone한 저장소에서 `npm link`를 사용하거나 npm global bin 경로가 `PATH`에 잡혀 있는지 확인합니다.
 
 ```bash
 npm bin -g
@@ -44,7 +44,7 @@ npm bin -g
 
 1. `userinfo/raw/`에 본인의 이력서, 기존 자기소개서, 경력기술서, 수상/자격 자료를 넣습니다.
 2. 채용공고 크롤링이 실패할 수 있으므로 공고 전문, PDF, 스크린샷은 `userinfo/job_posts/`에 보관합니다.
-3. `resume doctor`로 준비 상태를 확인합니다.
+3. `omr doctor`로 준비 상태를 확인합니다.
 4. 실제 생성은 저장소 루트에서 Codex 또는 Claude Code를 실행한 뒤 아래 파이프라인을 호출합니다.
 
 Codex:
@@ -57,42 +57,22 @@ Claude Code:
 - KOR: `/자소서`
 - EN: `/resume`
 
-## Quickstart — English
+## CLI 명령
 
-```bash
-git clone https://github.com/Cybecho/oh-my-resume-agent.git
-cd oh-my-resume-agent
-npm install
-npm link
-omr setup
-omr status
-omr doctor
-```
+`omr`이 canonical command이고, `resume`은 alias입니다.
 
-You can also run a one-off doctor check without installing globally:
-
-```bash
-npx --yes --package github:Cybecho/oh-my-resume-agent resume doctor
-```
-
-Place your private source files in `userinfo/raw/`. Place copied job descriptions, saved PDFs, or screenshots in `userinfo/job_posts/` when a URL cannot be accessed. The CLI does not generate resumes itself; it prepares and validates the local workspace so Codex or Claude Code can run the agent pipelines with evidence.
-
-## CLI commands
-
-`omr` is the canonical command and `resume` is an alias.
-
-| Command | Purpose |
+| 명령 | 설명 |
 | --- | --- |
-| `resume setup` | Text UI setup wizard for local folders, private source readiness, and job-post fallback readiness. |
-| `resume init` | Create local user/workspace/state folders and placeholders. |
-| `resume status` | Print private source counts, job-post fallback counts, workspace counts, and local state. |
-| `resume doctor` | Check required folders/files and explain missing user data without pretending setup is complete. |
-| `resume config` | Show what this CLI does and which KOR/EN agent pipelines to run. |
-| `resume paths` | Print absolute paths for `userinfo`, `workspace`, `output`, and `.omr/state`. |
-| `resume eval privacy` | Fail if tracked private paths or obvious PII patterns are found. |
-| `resume eval skills` | Check Codex and Claude skill surfaces and document GitHub EN v0 unsupported status. |
+| `omr setup` | 로컬 폴더, 비공개 원천 자료 준비, 채용공고 fallback 준비를 확인하는 텍스트 UI setup wizard입니다. |
+| `omr init` | 로컬 user/workspace/state 폴더와 placeholder를 생성합니다. |
+| `omr status` | 비공개 원천 수, 채용공고 fallback 수, workspace 수, 로컬 상태를 출력합니다. |
+| `omr doctor` | 필수 폴더/파일을 점검하고, 누락된 사용자 데이터를 setup 완료로 가장하지 않고 설명합니다. |
+| `omr config` | 이 CLI가 하는 일과 실행할 KOR/EN agent pipeline을 보여줍니다. |
+| `omr paths` | `userinfo`, `workspace`, `output`, `.omr/state`의 절대 경로를 출력합니다. |
+| `omr eval privacy` | 추적 중인 private path나 명백한 PII 패턴이 있으면 실패합니다. |
+| `omr eval skills` | Codex/Claude skill surface를 점검하고 GitHub EN v0 미지원 상태를 문서화합니다. |
 
-## Directory model
+## 디렉터리 모델
 
 ```text
 oh-my-resume-agent/
@@ -119,45 +99,45 @@ oh-my-resume-agent/
 └── .omr/                      # local runtime state/logs; private state is gitignored
 ```
 
-`data/` is kept only as a legacy compatibility boundary in the public template. Do not commit personal profiles, real experience cards, real claim registries, writing samples, or generated company outputs.
+`data/`는 공개 템플릿에서 legacy compatibility boundary로만 유지합니다. 개인 프로필, 실제 경험카드, 실제 claim registry, 문체 샘플, 회사별 생성 산출물은 commit하지 마세요.
 
-## Agent pipelines
+## 에이전트 파이프라인
 
-KOR self-introduction pipeline:
+KOR 자기소개서 파이프라인:
 
 ```text
 조사 → JD분석 → 의도분석 → 경험풀 → 경험매칭 → 기획 → 작성 → 검수
 ```
 
-EN resume pipeline:
+EN resume 파이프라인:
 
 ```text
 company research → jd analysis → evidence matching → resume plan → resume write → ATS lint → review → optional publish
 ```
 
-Core rules:
+핵심 규칙:
 
-- Never invent experiences, metrics, awards, or outcomes not present in user evidence.
-- Numeric claims must be traceable to approved evidence or an approved claim registry entry.
-- Candidate claims are review candidates only and must not be used as final resume metrics.
-- KOR and EN state files stay separate under `output/{YYYYMMDD}_{company}/`.
-- If job-post collection fails, stop and request paste/PDF/screenshot fallback instead of guessing the JD.
+- 사용자 근거에 없는 경험, 수치, 수상, 성과는 만들지 않습니다.
+- 수치 claim은 승인된 근거 또는 승인된 claim registry entry로 추적 가능해야 합니다.
+- candidate claim은 검토 후보일 뿐이며 최종 resume metric으로 쓰면 안 됩니다.
+- KOR/EN state file은 `output/{YYYYMMDD}_{company}/` 아래에 분리해 둡니다.
+- 채용공고 수집이 실패하면 JD를 추측하지 않고 paste/PDF/screenshot fallback을 요청합니다.
 
-## Public release gates
+## 공개 릴리스 게이트
 
-Before creating a public repository or publishing a package, run:
+공개 저장소를 만들거나 package를 publish하기 전 아래를 실행합니다.
 
 ```bash
-resume init
-resume setup
-resume doctor
-resume eval privacy
-resume eval skills
+omr init
+omr setup
+omr doctor
+omr eval privacy
+omr eval skills
 ```
 
-The full release policy is in `docs/release-gates.md` and `plan/03_evaluation_metrics.md`. v0 release requires all hard gates to pass and a weighted score of at least 85/100.
+전체 release policy는 `docs/release-gates.md`와 `plan/03_evaluation_metrics.md`에 있습니다. v0 release는 모든 hard gate 통과와 85/100 이상의 weighted score를 요구합니다.
 
-## Reference docs
+## 참고 문서
 
 - `plan/README.md`: deployment plan overview
 - `plan/01_objective.md`: Objective
@@ -166,13 +146,13 @@ The full release policy is in `docs/release-gates.md` and `plan/03_evaluation_me
 - `docs/job-intake-fallback.md`: URL/JD fallback policy
 - `docs/release-gates.md`: v0 release hard gates
 
-## GitHub/Copilot surface
+## GitHub/Copilot 표면
 
-The v0 GitHub surface mirrors the KOR pipeline only. EN Resume GitHub skills are explicitly unsupported in v0; use Codex (`en-resume-pipeline`) or Claude Code (`/resume`) for EN generation until the GitHub surface is deliberately mirrored.
+v0 GitHub surface는 KOR pipeline만 mirror합니다. EN Resume GitHub skills는 v0에서 명시적으로 미지원입니다. GitHub surface가 의도적으로 mirror되기 전까지 EN 생성은 Codex(`en-resume-pipeline`) 또는 Claude Code(`/resume`)를 사용하세요.
 
 ## 현재 에이전트 설계 구조와 동작 방식
 
-Oh My Resume-Agent는 `resume` 명령 하나로 자기소개서를 바로 생성하는 단일 AI 앱이 아니라, **사용자 로컬 데이터 → 정규화된 근거 → 에이전트 파이프라인 → 산출물 검수**를 안전하게 연결하는 agent harness입니다. v0의 핵심 설계는 “CLI는 준비와 검증만 담당하고, 실제 작성은 Codex/Claude Code의 스킬과 에이전트가 수행한다”는 분리입니다.
+Oh My Resume-Agent는 `omr` 명령 하나로 자기소개서를 바로 생성하는 단일 AI 앱이 아니라, **사용자 로컬 데이터 → 정규화된 근거 → 에이전트 파이프라인 → 산출물 검수**를 안전하게 연결하는 agent harness입니다. v0의 핵심 설계는 “CLI는 준비와 검증만 담당하고, 실제 작성은 Codex/Claude Code의 스킬과 에이전트가 수행한다”는 분리입니다.
 
 ### 설계 레이어
 
@@ -243,10 +223,10 @@ oh-my-resume-agent/
 
 ### 동작 흐름
 
-1. **초기화**: 사용자가 `resume setup` 또는 `resume init`을 실행하면 `userinfo/`, `workspace/`, `output/`, `.omr/state/` 등 필요한 로컬 폴더가 만들어집니다.
+1. **초기화**: 사용자가 `omr setup` 또는 `omr init`을 실행하면 `userinfo/`, `workspace/`, `output/`, `.omr/state/` 등 필요한 로컬 폴더가 만들어집니다.
 2. **원본 수집**: 사용자는 이력서, 기존 자기소개서, 경력자료를 `userinfo/raw/`에 넣습니다. 채용공고 URL 접근이 실패할 수 있으므로 JD 전문, PDF, 스크린샷은 `userinfo/job_posts/`에 보관합니다.
 3. **정규화**: 원본 자료는 바로 최종 작성 근거로 쓰지 않고 `workspace/profile/`, `workspace/experience_cards/`, `workspace/claims/`, `workspace/writing_samples/` 같은 구조화된 자료로 정리합니다.
-4. **준비 검증**: `resume doctor`가 필수 폴더/파일과 사용자 자료 존재 여부를 확인합니다. `resume eval privacy`는 공개 repo에 개인정보나 실제 산출물이 추적되는지 검사하고, `resume eval skills`는 Codex/Claude skill surface가 살아 있는지 확인합니다.
+4. **준비 검증**: `omr doctor`가 필수 폴더/파일과 사용자 자료 존재 여부를 확인합니다. `omr eval privacy`는 공개 repo에 개인정보나 실제 산출물이 추적되는지 검사하고, `omr eval skills`는 Codex/Claude skill surface가 살아 있는지 확인합니다.
 5. **파이프라인 실행**: Codex에서는 `self-intro-pipeline` 또는 `en-resume-pipeline`, Claude Code에서는 `/자소서` 또는 `/resume`을 호출합니다. 이때 스킬은 `agents/`의 단계별 지침과 `.claude/rules/`의 공통 규칙을 읽습니다.
 6. **상태 기록**: KOR 자기소개서 흐름은 `output/{YYYYMMDD}_{회사명}/state.json`, EN Resume 흐름은 `output/{YYYYMMDD}_{회사명}/state_en.json`에 진행 상태를 분리해 기록합니다.
 7. **검수와 피드백**: 초안은 검수 단계에서 사실성, claim 승인 여부, 문항 적합성, 글자수/ATS 기준을 확인합니다. 제출 후 결과나 피드백은 `workspace/feedback/`에 축적해 다음 매칭과 기획의 힌트로 사용합니다.
@@ -286,8 +266,8 @@ EN 흐름은 KOR 자기소개서와 상태 파일을 분리합니다. 핵심 1~7
 - **workspace 우선**: active pipeline은 `workspace/`를 1차 근거로 사용하고, `data/`는 기존 개인용 seed 호환을 위한 legacy fallback 경계로만 남깁니다.
 - **공개 저장소 위생**: `userinfo/raw/`, `userinfo/job_posts/`, `workspace/`, `output/`, `.omr/state/`의 실제 내용은 gitignore 대상입니다. 공개 repo에는 README, `.gitkeep`, schema, synthetic sample만 포함합니다.
 - **fallback 명시**: 채용공고 URL 크롤링이나 문서 파싱이 실패하면 내용을 추측하지 않고, JD 텍스트/PDF/스크린샷을 `userinfo/job_posts/`에 추가하도록 안내합니다.
-- **CLI/작성 분리**: `resume` CLI는 setup/status/doctor/eval만 담당합니다. 실제 LLM 기반 작성은 Codex 또는 Claude Code의 agent runtime에서 수행합니다.
+- **CLI/작성 분리**: `omr` CLI는 setup/status/doctor/eval만 담당합니다. `resume`은 alias입니다. 실제 LLM 기반 작성은 Codex 또는 Claude Code의 agent runtime에서 수행합니다.
 
-## License
+## 라이선스
 
 MIT

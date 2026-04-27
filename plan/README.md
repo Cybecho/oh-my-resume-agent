@@ -17,8 +17,8 @@
 ## 현재 결론
 
 - v0는 “완전 자동 문서 파서”가 아니라 **public template repo + TUI 설정 + Codex/Claude 실행 경로 + 기본 데이터 구조화**에 집중한다.
-- `resume` 명령은 AI 생성기가 아니라 사용자 데이터 설정·검사·상태 안내 CLI/TUI로 둔다.
-- oh-my 시리즈 철학에 맞춰 1차 CLI 이름은 `omr`, `resume`은 alias로 제공하는 방향을 권장한다.
+- `omr` 명령은 AI 생성기가 아니라 사용자 데이터 설정·검사·상태 안내 CLI/TUI로 둔다.
+- oh-my 시리즈 철학에 맞춰 1차 CLI 이름은 `omr`, `resume`은 alias로 제공한다.
 - 실제 자기소개서/Resume 생성은 기존처럼 Codex 또는 Claude Code의 skill/agent 파이프라인에서 수행한다.
 - 평가 기준은 hard gate와 weighted score를 함께 사용한다.
 

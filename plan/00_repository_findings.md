@@ -82,7 +82,7 @@ public repo로 전환하려면 다음 gap을 해결해야 한다.
 - 개인 정보와 실제 지원 산출물 제거 또는 샘플화
 - public sample data 작성
 - `userinfo/` 입력 폴더 도입
-- `resume` 명령어용 CLI/TUI 패키지 추가
+- `omr` 명령어용 CLI/TUI 패키지 추가 (`resume`은 alias)
 - `package.json` 또는 `pyproject.toml` 신규 설계
 - Codex/Claude/GitHub skill surface 동기화
 - `.github/skills`에 EN skill이 없는 문제 정리
